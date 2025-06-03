@@ -1,0 +1,25 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "JSON Server",
+      "author": "Mohamed"
+    },
+    {
+      "id": "2",
+      "title": "JSON Server test 4",
+      "author": "seydina boubs "
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "body": "Super !",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "id": "2",
+    "name": "Mohamed"
+  }
+}

@@ -6,9 +6,6 @@ import {users, liUser, listUser, nouveauBtn,form, inputNomC, inputActus,inputNum
         loginForm, connecteBtn, container, disconnectbtn, adminBtn,
         diffusionBtn} from './consts.js'
 
-console.log(marquerAdmin)
-console.log(adminBtn)
-
     const searchInput = document.querySelector(".search");
 
 
@@ -361,29 +358,38 @@ function gererSelectionDiffusion(user, element) {
 }
 
 function gererSelectionNormale(user, element, index) {
+  // 🔁 Désactiver le mode diffusion
+  if (modeDiffusion) {
+    modeDiffusion = false;
+    contactsSelectionnes = [];
+  }
+
+  // Sauvegarder le brouillon de l'ancien utilisateur
   const previousUser = users.find(u => u.selected);
   if (previousUser) {
     previousUser.brouillon = inputMessage.value.trim();
   }
-  
+
+  // Réinitialiser les sélections
   users.forEach(u => u.selected = false);
-  
   user.selected = true;
-  
+
+  // Mettre à jour l'affichage
   document.querySelectorAll('.bg-green-300').forEach(el => {
     el.classList.remove('bg-green-300');
   });
-  
+
   element.classList.add('bg-green-300');
-  
+
   etat.textContent = `${user.etat}`;
   nomCU.textContent = `${user.nom_complet}`;
   rightContent.querySelector('.img p').textContent = `${user.img}`;
-  
   inputMessage.value = user.brouillon || "";
-  
+
   listerMsg(user);
+  mettreAJourInterfaceDiffusion(); // pour nettoyer l'affichage de diffusion s’il y avait
   
+  // Gérer le bouton archiver
   const archiverBtn = rightContent.querySelector('.archiver');
   archiverBtn.onclick = () => {
     archiverContact(index);
@@ -398,6 +404,46 @@ function gererSelectionNormale(user, element, index) {
     messagesContainer.innerHTML = "";
   };
 }
+
+
+// function gererSelectionNormale(user, element, index) {
+//   const previousUser = users.find(u => u.selected);
+//   if (previousUser) {
+//     previousUser.brouillon = inputMessage.value.trim();
+//   }
+  
+//   users.forEach(u => u.selected = false);
+  
+//   user.selected = true;
+  
+//   document.querySelectorAll('.bg-green-300').forEach(el => {
+//     el.classList.remove('bg-green-300');
+//   });
+  
+//   element.classList.add('bg-green-300');
+  
+//   etat.textContent = `${user.etat}`;
+//   nomCU.textContent = `${user.nom_complet}`;
+//   rightContent.querySelector('.img p').textContent = `${user.img}`;
+  
+//   inputMessage.value = user.brouillon || "";
+  
+//   listerMsg(user);
+  
+//   const archiverBtn = rightContent.querySelector('.archiver');
+//   archiverBtn.onclick = () => {
+//     archiverContact(index);
+//     rightContent.querySelector('.img p').textContent = "";
+//     rightContent.querySelector('.archiver').onclick = null;
+//     user.selected = false;
+//     element.classList.remove('bg-green-300');
+//     etat.textContent = "";
+//     nomCU.textContent = "";
+//     inputMessage.value = "";
+//     const messagesContainer = rightContent.querySelector('.messages-container');
+//     messagesContainer.innerHTML = "";
+//   };
+// }
 
 function toggleModeDiffusion() {
   modeDiffusion = !modeDiffusion;
